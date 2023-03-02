@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragment/head :: head(로그인,~{::link},~{::script})">
+    <meta charset="utf-8">
+    <script></script>
+    <link th:href="@{/css/bootstrap.css}">
+</head>
+<body class=" container text-center">
+<div class="d-flex justify-content-center py-5 my-5">
+    <main class="form-signin w-25">
+        <form th:action="@{/login(redirect=${redirectUri})}" method="post">
+            <h1 class="h3 mb-3 fw-normal">로그인</h1>
+
+            <div class="form-floating pb-1">
+                <input type="text" class="form-control" name="loginId" id="loginId" autocomplete="username" placeholder="Id">
+                <label for="loginId">Id</label>
+            </div>
+            <div class="form-floating pb-1">
+                <input type="password" class="form-control" name="password" id="password" autocomplete="current-password"
+                       placeholder="Password">
+                <label for="password">Password</label>
+            </div>
+            <button class="w-100 btn btn-primary mb-1" type="submit">로그인</button>
+            <a th:href="@{/join}" class="w-100 btn btn-primary" type="button">회원가입</a>
+        </form>
+    </main>
+</div>
+</body>
+</html>

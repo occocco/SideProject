@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="/fragment/head :: head(login,~{::link},~{::script})">
     <title>Hello</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script></script>
+    <link>
 </head>
 <body>
-Hello
+<a type="button" class="btn btn-primary" role="button" th:href="@{/login(redirect=${#request.requestURI})}">로그인</a>
 </body>
 </html>
