@@ -1,4 +1,4 @@
-package com.toy.overall_practice.common;
+package com.toy.overall_practice.domain.role;
 
 import lombok.AccessLevel;
 import lombok.Getter;

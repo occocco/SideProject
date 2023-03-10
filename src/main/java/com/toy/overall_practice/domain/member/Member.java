@@ -1,7 +1,7 @@
 package com.toy.overall_practice.domain.member;
 
-import com.toy.overall_practice.common.MemberRole;
-import com.toy.overall_practice.common.RoleType;
+import com.toy.overall_practice.domain.role.MemberRole;
+import com.toy.overall_practice.domain.role.RoleType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +36,7 @@ public class Member {
         return member;
     }
 
-    private Member(String loginId, String password) {
+    protected Member(String loginId, String password) {
         this.loginId = loginId;
         this.password = password;
     }

@@ -1,11 +1,40 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragment/head :: head(login,~{::link},~{::script})">
-    <title>Hello</title>
-    <script></script>
-    <link>
+<head th:replace="/fragment/head :: head(login)">
+
+
+
 </head>
 <body>
-<a type="button" class="btn btn-primary" role="button" th:href="@{/login(redirect=${#request.requestURI})}">로그인</a>
+<style>
+    /* Style for the buttons */
+    button {
+        padding: 10px 20px;
+        font-size: 1.2em;
+        border: none;
+        border-radius: 5px;
+        background-color: #008CBA;
+        color: #fff;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #005b8e;
+    }
+    /* Style for the container */
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container > * {
+        margin: 0 10px;
+    }
+</style>
+<div class="container">
+    <button>Login</button>
+    <a type="button" class="btn btn-primary" role="button" th:href="@{/login(redirect=${#request.requestURI})}">로그인</a>
+    <button>Membership</button>
+</div>
 </body>
 </html>

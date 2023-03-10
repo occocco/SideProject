@@ -1,4 +1,4 @@
-package com.toy.overall_practice.common;
+package com.toy.overall_practice.domain.role;
 
 import com.toy.overall_practice.domain.member.Member;
 import lombok.AccessLevel;

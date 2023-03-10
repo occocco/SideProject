@@ -18,4 +18,5 @@ public class JwtProperty {
 
     private Long accessTokenValidTime = Duration.ofMinutes(30).toMillis();
     private Long refreshTokenValidTime = Duration.ofDays(7).toMillis();
+
 }
