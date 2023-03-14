@@ -1,7 +1,6 @@
 package com.toy.overall_practice.service.member.service;
 
 import com.toy.overall_practice.domain.role.RoleType;
-import com.toy.overall_practice.jwt.JwtProperty;
 import com.toy.overall_practice.jwt.Token;
 import com.toy.overall_practice.jwt.JwtTokenProvider;
 import com.toy.overall_practice.domain.member.Member;
@@ -10,6 +9,7 @@ import com.toy.overall_practice.redis.RedisRepository;
 import com.toy.overall_practice.service.member.service.dto.MemberDto;
 import com.toy.overall_practice.exception.DuplicateMemberException;
 import com.toy.overall_practice.exception.NotFoundMemberException;
+import com.toy.overall_practice.service.member.service.dto.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -25,7 +26,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
-    private final JwtProperty jwtProperty;
     private final BCryptPasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final RedisRepository redisRepository;
@@ -55,6 +55,28 @@ public class MemberServiceImpl implements MemberService {
 
         return accessToken;
     }
+
+    @Override
+    public void logout(String token) {
+        String loginId = jwtTokenProvider.getMemberLoginId(token);
+        redisRepository.deleteById(loginId);
+    }
+
+    @Override
+    public Optional<Member> findById(String id) {
+        return memberRepository.findByLoginId(id);
+    }
+
+    @Override
+    @Transactional
+    public MemberDto modifyInfo(MemberInfoDto memberDto, Principal principal) {
+        Member member = memberRepository.findByLoginId(principal.getName())
+                .orElseThrow(()-> new NotFoundMemberException("회원정보가 올바르지 않습니다."));
+        String password = passwordEncoder.encode(memberDto.getPassword());
+        member.modifyMember(password);
+        return MemberDto.toMemberDto(member);
+    }
+
 
     private void validateDuplicateMember(String loginId) {
         Optional<Member> findMember = memberRepository.findByLoginId(loginId);

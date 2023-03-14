@@ -6,6 +6,7 @@ import com.toy.overall_practice.jwt.JwtProperty;
 import com.toy.overall_practice.jwt.JwtTokenProvider;
 import com.toy.overall_practice.jwt.Token;
 import com.toy.overall_practice.redis.RedisRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,18 @@ class AuthControllerTest {
     RestTemplate restTemplate;
     @Autowired
     JwtProperty jwtProperty;
+    HttpHeaders headers;
 
     @BeforeEach
     public void init() {
-        redisRepository.deleteAll();
+        headers = new HttpHeaders();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        redisRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void after() {
+        redisRepository.deleteAll();
     }
 
     @Test
@@ -46,7 +54,6 @@ class AuthControllerTest {
         saveRedis(token);
 
         String url = "http://localhost:8080/token/reissue";
-        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + token.getValue());
 
@@ -59,8 +66,8 @@ class AuthControllerTest {
         assertNotEquals(responseToken.getValue(), token.getValue());
     }
 
-    private Token saveRedis(Token token) {
-        return redisRepository.save(token);
+    private void saveRedis(Token token) {
+        redisRepository.save(token);
     }
 
     private Token createToken() {

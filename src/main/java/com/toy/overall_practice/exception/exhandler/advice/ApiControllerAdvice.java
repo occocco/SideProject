@@ -1,5 +1,7 @@
 package com.toy.overall_practice.exception.exhandler.advice;
 
+import com.toy.overall_practice.exception.DuplicateMemberException;
+import com.toy.overall_practice.exception.ForbiddenException;
 import com.toy.overall_practice.exception.NotFoundMemberException;
 import com.toy.overall_practice.exception.exhandler.ExResult;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +13,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@RestControllerAdvice(basePackages = {"com/toy/overall_practice/api"})
+@RestControllerAdvice
 public class ApiControllerAdvice {
 
-    @ExceptionHandler
-    public ResponseEntity<ExResult> userExHandler(NotFoundMemberException e) {
-        log.error("[NotFoundMemberException] ex", e);
+    @ExceptionHandler(NotFoundMemberException.class)
+    public ResponseEntity<ExResult> NotFoundMemberExceptionHandler(NotFoundMemberException e) {
+        log.error("[NotFoundMemberException]", e);
         ExResult exResult = new ExResult("400", e.getMessage());
         return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(exResult);
+    }
+
+    @ExceptionHandler(DuplicateMemberException.class)
+    public ResponseEntity<ExResult> duplicateMemberExceptionHandler(DuplicateMemberException e) {
+        log.error("[DuplicateMemberException]", e);
+        ExResult exResult = new ExResult("409", e.getMessage());
+        return ResponseEntity.status(HttpServletResponse.SC_CONFLICT).body(exResult);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ExResult> forbiddenExceptionHandler(ForbiddenException e) {
+        log.error("[ForbiddenException]", e);
+        ExResult exResult = new ExResult("403", e.getMessage());
+        return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(exResult);
     }
 
     @ExceptionHandler

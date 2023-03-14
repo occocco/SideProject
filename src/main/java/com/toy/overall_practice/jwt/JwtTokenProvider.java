@@ -117,7 +117,7 @@ public class JwtTokenProvider {
             String payload = new String(Base64.getDecoder().decode(splitJwt[1].getBytes()));
             return new ObjectMapper().readValue(payload, HashMap.class);
         } catch (JsonProcessingException e) {
-            log.error("errors ={}", e.getMessage(), e);
+            log.error("[JsonProcessingException] ={}", e.getMessage(), e);
             return null;
         }
     }

@@ -18,4 +18,13 @@ class MemberTest {
 
     }
 
+    @Test
+    void modifyTest(){
+        Member memberA = Member.createMember("MemberA", "1234", RoleType.MEMBER);
+        String modify = "0000";
+
+        memberA.modifyMember(modify);
+
+        assertThat(memberA.getPassword()).isEqualTo(modify);
+    }
 }

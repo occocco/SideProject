@@ -6,7 +6,7 @@
 <body class=" container text-center">
 <div class="d-flex justify-content-center py-5 my-5">
     <main class="form-signin w-25">
-        <form th:action="@{/join}" method="post">
+        <form id="signupForm">
             <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
             <div class="form-floating pb-1">
@@ -18,9 +18,10 @@
                        placeholder="Password">
                 <label for="password">Password</label>
             </div>
-            <button class="w-100 btn btn-primary" type="submit">회원가입</button>
         </form>
+            <button class="w-100 btn btn-primary" id="signupBtn">회원가입</button>
     </main>
 </div>
 </body>
+<script th:src="@{/js/sign/signup.js}"></script>
 </html>

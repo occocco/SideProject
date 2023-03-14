@@ -4,8 +4,10 @@ import com.toy.overall_practice.jwt.JwtAuthenticationFilter;
 import com.toy.overall_practice.jwt.handler.CustomAccessDeniedHandler;
 import com.toy.overall_practice.jwt.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -13,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,22 +33,24 @@ public class SpringSecurityConfig {
                 .httpBasic().disable()
                 .cors()
                 .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
+                .and()
                 .authorizeRequests()
-                .antMatchers("/","/login","/join","/error","/api/hello").permitAll()
+                .antMatchers("/", "/login", "/join", "/logout", "/error", "/api/hello").permitAll()
                 .antMatchers("/token/reissue").permitAll()
-                .antMatchers("/**/*.ico","/**/*.css","/**/*.png","/**/*.json","/**/*.svg","/**/*.js").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/members").permitAll()
+                .antMatchers("/members").hasAuthority("MEMBER")
+                .antMatchers("/**/*.ico", "/**/*.css", "/**/*.png", "/**/*.json", "/**/*.svg", "/**/*.js").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
                 .logout().disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         return http.build();
     }
 
@@ -53,6 +58,7 @@ public class SpringSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-                .antMatchers("/**/*.ico", "/**/*.css", "/**/*.png", "/**/*.json", "/**/*.svg", "/**/*.js","/error");
+                .antMatchers("/**/*.ico", "/**/*.css", "/**/*.png", "/**/*.json", "/**/*.svg", "/**/*.js", "/error/**");
     }
+
 }

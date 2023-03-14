@@ -22,7 +22,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "login_id")
+    @Column(name = "login_id", unique = true)
     private String loginId;
 
     private String password;
@@ -30,10 +30,14 @@ public class Member {
     private Set<MemberRole> role = new HashSet<>();
 
     public static Member createMember(String loginId, String password, RoleType roleType) {
-        Member member = new Member(loginId,password);
+        Member member = new Member(loginId, password);
         MemberRole memberRole = new MemberRole(roleType);
         member.addRole(memberRole);
         return member;
+    }
+
+    public void modifyMember(String password) {
+        this.password = password;
     }
 
     protected Member(String loginId, String password) {

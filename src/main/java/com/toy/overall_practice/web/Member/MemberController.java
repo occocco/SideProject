@@ -1,36 +1,26 @@
 package com.toy.overall_practice.web.Member;
 
-import com.toy.overall_practice.service.member.service.MemberService;
-import com.toy.overall_practice.service.member.service.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberService memberService;
 
     @GetMapping("/login")
-    public String loginForm(@RequestParam("redirect") String redirectUri, Model model) {
+    public String loginForm(@RequestParam(value = "redirect", required = false, defaultValue = "/") String redirectUri, Model model) {
         model.addAttribute("redirectUri", redirectUri);
-        return "/LoginForm";
+        return "member/LoginForm";
     }
 
     @GetMapping("/join")
     public String joinForm() {
-        return "JoinForm";
+        return "member/JoinForm";
     }
 
-    @PostMapping("/join")
-    public String join(@ModelAttribute MemberDto memberDto) {
-        memberService.signup(memberDto);
-        return "redirect:/login?redirect=/";
-    }
 }

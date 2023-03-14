@@ -1,5 +1,6 @@
 package com.toy.overall_practice.service.member.service.dto;
 
+import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.role.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,4 +15,9 @@ public class MemberDto {
     private String password;
     private RoleType roleType;
 
+    public static MemberDto toMemberDto(Member member) {
+        return new MemberDto(member.getLoginId(),
+                             member.getPassword(),
+                             member.getRole().stream().findAny().orElseThrow().getRole().getRoleName());
+    }
 }
