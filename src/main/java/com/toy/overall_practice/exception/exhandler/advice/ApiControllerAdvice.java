@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestControllerAdvice
@@ -35,6 +36,12 @@ public class ApiControllerAdvice {
         log.error("[ForbiddenException]", e);
         ExResult exResult = new ExResult("403", e.getMessage());
         return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(exResult);
+    }
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ExResult> noSuchElementExceptionHandler(NoSuchElementException e) {
+        log.error("[NoSuchElementException]", e);
+        ExResult exResult = new ExResult("400", e.getMessage());
+        return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(exResult);
     }
 
     @ExceptionHandler

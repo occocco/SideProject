@@ -3,17 +3,17 @@ package com.toy.overall_practice.api.member;
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.jwt.Token;
 import com.toy.overall_practice.service.member.service.dto.MemberDto;
-import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -21,21 +21,67 @@ class MemberRestControllerTest {
 
     RestTemplate restTemplate;
     HttpHeaders headers;
-
+    Map<String, String> requestBody;
     @BeforeEach
     void init() {
         restTemplate = new RestTemplate();
         headers = new HttpHeaders();
+        requestBody = new HashMap<>();
     }
 
     @Test
-    void loginApiTest() {
+    void joinTest() {
+        MemberDto memberDto = new MemberDto("JoinTest", "123", null);
+
+        String url = "http://localhost:8080/members";
+
+        requestBody.put("loginId", memberDto.getLoginId());
+        requestBody.put("password", memberDto.getPassword());
+
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<MemberDto> response = restTemplate.postForEntity(url, requestEntity, MemberDto.class);
+        MemberDto savedMember = response.getBody();
+
+        assertEquals(savedMember, memberDto);
+        assertEquals(savedMember.getLoginId(), memberDto.getLoginId());
+        assertEquals(200, response.getStatusCodeValue());
+
+    }
+
+    @Test
+    void joinExTest() {
+        MemberDto memberDto1 = new MemberDto("MemberE", "123", null);
+        MemberDto memberDto2 = new MemberDto("MemberE", "123", null);
+
+        String url = "http://localhost:8080/members";
+
+        requestBody.put("loginId", memberDto1.getLoginId());
+        requestBody.put("password", memberDto1.getPassword());
+        HttpEntity<Map<String, String>> requestEntity1 = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<MemberDto> response1 = restTemplate.postForEntity(url, requestEntity1, MemberDto.class);
+
+        assertEquals(200, response1.getStatusCodeValue());
+
+        requestBody.put("loginId", memberDto2.getLoginId());
+        requestBody.put("password", memberDto2.getPassword());
+        HttpEntity<Map<String, String>> requestEntity2 = new HttpEntity<>(requestBody, headers);
+
+        HttpClientErrorException exception = assertThrows(HttpClientErrorException.class, () -> {
+            restTemplate.postForEntity(url, requestEntity2, MemberDto.class);
+        });
+
+        assertEquals(HttpStatus.CONFLICT, exception.getStatusCode());
+
+    }
+
+    @Test
+    void loginTest() {
         MemberDto memberDto = new MemberDto("MemberC", "123", RoleType.MEMBER);
 
         String url = "http://localhost:8080/login";
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        Map<String, String> requestBody = new HashMap<>();
         requestBody.put("loginId", memberDto.getLoginId());
         requestBody.put("password", memberDto.getPassword());
 
@@ -50,23 +96,23 @@ class MemberRestControllerTest {
     }
 
     @Test
-    void loginApiExTest() {
+    void loginExTest() {
 
         MemberDto memberDto = new MemberDto("MemberC", "wrongPass", RoleType.MEMBER);
 
         String url = "http://localhost:8080/login";
 
-        Map<String, String> requestBody = new HashMap<>();
         requestBody.put("loginId", memberDto.getLoginId());
         requestBody.put("password", memberDto.getPassword());
 
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
-        AbstractThrowableAssert<?, ? extends Throwable> exCase =
-                        assertThatThrownBy(() -> restTemplate.postForEntity(url, requestEntity, Token.class))
-                        .isInstanceOf(Exception.class);
+        HttpClientErrorException exception = assertThrows(HttpClientErrorException.class, () -> {
+            restTemplate.postForEntity(url, requestEntity, Token.class);
+        });
 
-        exCase.hasMessageContaining("아이디 혹은 비밀번호가 올바르지 않습니다");
+        assertThat(exception.getMessage()).contains("아이디 혹은 비밀번호가 올바르지 않습니다");
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
 
     }
 

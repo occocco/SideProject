@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -23,7 +22,7 @@ public class MemberRole {
     @Column(name = "member_role_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -31,7 +30,7 @@ public class MemberRole {
     @JoinColumn(name = "role_name")
     private Role role;
 
-    public void connectionMember(Member member) {
+    public void ConnectMember(Member member) {
         this.member = member;
     }
 

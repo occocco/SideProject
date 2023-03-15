@@ -2,6 +2,7 @@ package com.toy.overall_practice.domain.member;
 
 import com.toy.overall_practice.domain.role.MemberRole;
 import com.toy.overall_practice.domain.role.RoleType;
+import com.toy.overall_practice.domain.wallet.Wallet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
@@ -29,6 +31,10 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = ALL)
     private Set<MemberRole> role = new HashSet<>();
 
+    @OneToOne(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
+
     public static Member createMember(String loginId, String password, RoleType roleType) {
         Member member = new Member(loginId, password);
         MemberRole memberRole = new MemberRole(roleType);
@@ -46,7 +52,11 @@ public class Member {
     }
 
     private void addRole(MemberRole memberRole) {
-        memberRole.connectionMember(this);
+        memberRole.ConnectMember(this);
         role.add(memberRole);
+    }
+
+    public void ConnectWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 }

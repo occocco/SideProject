@@ -1,39 +1,10 @@
-import {getToken} from '/js/jwt/tokenUtil.js';
+import {getToken, getMemberId} from '/js/jwt/tokenUtil.js';
 
 const $container = $('.container');
 
 $('#member-info').click(function () {
     getInfo();
 })
-
-
-const memberInfo = (id, password, type) => {
-    return `
-    <main>
-        <form id="InfoForm">
-            <h1 class="h3 mb-3 fw-normal">회원정보</h1>
-            <div class="form-floating pb-1">
-                <input type="text" class="form-control" name="loginId" id="loginId" autocomplete="username"
-                       value="${id}" readonly>
-                <label for="password">Id</label>
-            </div>
-            <div class="form-floating pb-1">
-                <input type="password" class="form-control" name="password" id="password" autocomplete="current-password"
-                       value="${password}" disabled>
-                <label for="password">password</label>
-            </div>
-            <div class="form-floating pb-1">
-                <input type="text" class="form-control" name="role" id="type" autocomplete="current-password"
-                       value="${type}" readonly>
-                <label for="type">MemberType</label>
-            </div>
-            
-        </form>
-        <button class="w-100 btn btn-primary" id="modifyBtn" data-action="false">회원정보수정</button>
-        <button class="w-100 btn btn-primary mt-1" id="homeBtn">홈으로</button>
-    </main>
-`;
-}
 
 function modify() {
     $('#modifyBtn').click(function () {
@@ -48,7 +19,7 @@ function modify() {
 
             let formData = new FormData(document.getElementById('InfoForm'));
 
-            modifyInfo('/members', formData)
+            modifyInfo('/members/' + getMemberId(), formData)
                 .then((response) => {
                     if (response.message) {
                         alert(response.message);
@@ -62,9 +33,8 @@ function modify() {
     })
 }
 
-
 function getInfo() {
-    fetch('/members', {
+    fetch('/members/' + getMemberId(), {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + getToken(),
@@ -99,8 +69,38 @@ async function modifyInfo(url, data) {
     return response.json();
 
 }
+
+
 function goIndex() {
     $('#homeBtn').click(function () {
         location.replace('/');
     })
+}
+
+const memberInfo = (id, password, type) => {
+    return `
+    <main>
+        <form id="InfoForm">
+            <h1 class="h3 mb-3 fw-normal">회원정보</h1>
+            <div class="form-floating pb-1">
+                <input type="text" class="form-control" name="loginId" id="loginId" autocomplete="username"
+                       value="${id}" readonly>
+                <label for="password">Id</label>
+            </div>
+            <div class="form-floating pb-1">
+                <input type="password" class="form-control" name="password" id="password" autocomplete="current-password"
+                       value="${password}" disabled>
+                <label for="password">password</label>
+            </div>
+            <div class="form-floating pb-1">
+                <input type="text" class="form-control" name="role" id="type" autocomplete="current-password"
+                       value="${type}" readonly>
+                <label for="type">MemberType</label>
+            </div>
+            
+        </form>
+        <button class="w-100 btn btn-primary" id="modifyBtn" data-action="false">회원정보수정</button>
+        <button class="w-100 btn btn-primary mt-1" id="homeBtn">홈으로</button>
+    </main>
+`;
 }

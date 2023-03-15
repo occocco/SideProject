@@ -73,6 +73,11 @@ public class JwtTokenProvider {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
+    public Member getMemberByToken(String token) {
+        MemberDetails memberDetails = memberDetailService.loadUserByUsername(getMemberLoginId(token));
+        return memberDetails.getMember();
+    }
+
     public String resolveAccessToken(HttpServletRequest request) {
         String token = request.getHeader(jwtProperty.getJwtHeader());
         if (StringUtils.hasText(token) && token.startsWith(jwtProperty.getJwtTokenPrefix())) {

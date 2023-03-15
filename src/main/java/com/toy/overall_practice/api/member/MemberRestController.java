@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -41,17 +40,23 @@ public class MemberRestController {
         return ResponseEntity.ok().body(memberDto);
     }
 
-    @GetMapping("/members")
-    public ResponseEntity<MemberDto> getInfo(Principal principal) {
-        Member member = memberService.findById(principal.getName()).orElseThrow();
+    @GetMapping("/members/{id}")
+    public ResponseEntity<MemberDto> getInfo(@PathVariable String id) {
+        Member member = memberService.findById(id).orElseThrow();
         MemberDto memberDto = MemberDto.toMemberDto(member);
         return ResponseEntity.ok().body(memberDto);
     }
 
-    @PatchMapping("/members")
-    public ResponseEntity<MemberDto> modifyInfo(@RequestBody MemberInfoDto memberDto, Principal principal) {
-        MemberDto modifyMember = memberService.modifyInfo(memberDto, principal);
+    @PatchMapping("/members/{id}")
+    public ResponseEntity<MemberDto> modifyInfo(@RequestBody MemberInfoDto memberDto,
+                                                @PathVariable String id) {
+        MemberDto modifyMember = memberService.modifyInfo(memberDto, id);
         return ResponseEntity.ok().body(modifyMember);
+    }
+
+    @DeleteMapping("/members/{id}")
+    public void WithdrawMember(@PathVariable String id) {
+        memberService.delete(id);
     }
 
 }

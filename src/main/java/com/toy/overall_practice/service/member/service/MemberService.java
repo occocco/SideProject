@@ -6,7 +6,6 @@ import com.toy.overall_practice.service.member.service.dto.MemberDto;
 import com.toy.overall_practice.service.member.service.dto.MemberInfoDto;
 
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.Optional;
 
 public interface MemberService {
@@ -16,7 +15,10 @@ public interface MemberService {
     Token login(MemberDto memberDto, HttpServletResponse response);
 
     void logout(String token);
+
     Optional<Member> findById(String id);
 
-    MemberDto modifyInfo(MemberInfoDto memberDto, Principal principal);
+    MemberDto modifyInfo(MemberInfoDto memberDto, String id);
+
+    void delete(String id);
 }

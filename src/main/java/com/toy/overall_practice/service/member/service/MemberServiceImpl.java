@@ -1,13 +1,13 @@
 package com.toy.overall_practice.service.member.service;
 
 import com.toy.overall_practice.domain.role.RoleType;
+import com.toy.overall_practice.exception.DuplicateMemberException;
 import com.toy.overall_practice.jwt.Token;
 import com.toy.overall_practice.jwt.JwtTokenProvider;
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.member.repository.MemberRepository;
 import com.toy.overall_practice.redis.RedisRepository;
 import com.toy.overall_practice.service.member.service.dto.MemberDto;
-import com.toy.overall_practice.exception.DuplicateMemberException;
 import com.toy.overall_practice.exception.NotFoundMemberException;
 import com.toy.overall_practice.service.member.service.dto.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -69,12 +68,20 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public MemberDto modifyInfo(MemberInfoDto memberDto, Principal principal) {
-        Member member = memberRepository.findByLoginId(principal.getName())
+    public MemberDto modifyInfo(MemberInfoDto memberDto, String id) {
+        Member member = memberRepository.findByLoginId(id)
                 .orElseThrow(()-> new NotFoundMemberException("회원정보가 올바르지 않습니다."));
         String password = passwordEncoder.encode(memberDto.getPassword());
         member.modifyMember(password);
         return MemberDto.toMemberDto(member);
+    }
+
+    @Override
+    @Transactional
+    public void delete(String id) {
+        Member member = memberRepository.findByLoginId(id)
+                .orElseThrow(() -> new NotFoundMemberException("회원을 찾을 수 없습니다."));
+        memberRepository.deleteById(member.getId());
     }
 
 

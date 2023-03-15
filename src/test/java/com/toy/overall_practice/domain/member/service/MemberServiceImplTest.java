@@ -2,17 +2,14 @@ package com.toy.overall_practice.domain.member.service;
 
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.domain.member.Member;
+import com.toy.overall_practice.exception.DuplicateMemberException;
 import com.toy.overall_practice.exception.NotFoundMemberException;
 import com.toy.overall_practice.jwt.JwtTokenProvider;
 import com.toy.overall_practice.jwt.Token;
 import com.toy.overall_practice.redis.RedisRepository;
 import com.toy.overall_practice.service.member.service.MemberServiceImpl;
 import com.toy.overall_practice.service.member.service.dto.MemberDto;
-import com.toy.overall_practice.exception.DuplicateMemberException;
 import com.toy.overall_practice.service.member.service.dto.MemberInfoDto;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
-import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -106,7 +102,7 @@ class MemberServiceImplTest {
 
         MemberInfoDto memberInfoDto = new MemberInfoDto("modify");
 
-        MemberDto modifyInfo = memberServiceImpl.modifyInfo(memberInfoDto, principal);
+        MemberDto modifyInfo = memberServiceImpl.modifyInfo(memberInfoDto, "TestMember");
 
         Member member = memberServiceImpl.findById(principal.getName()).orElseThrow();
         Assertions.assertEquals(modifyInfo.getPassword(), member.getPassword());
