@@ -3,9 +3,7 @@ package com.toy.overall_practice.domain.member;
 import com.toy.overall_practice.domain.role.MemberRole;
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.domain.wallet.Wallet;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -46,7 +44,7 @@ public class Member {
         this.password = password;
     }
 
-    protected Member(String loginId, String password) {
+    private Member(String loginId, String password) {
         this.loginId = loginId;
         this.password = password;
     }

@@ -44,6 +44,7 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/members").permitAll()
                 .antMatchers("/members/**").hasAuthority("MEMBER")
                 .antMatchers("/wallet/**").hasAuthority("MEMBER")
+                .antMatchers("/tx/**").hasAuthority("MEMBER")
                 .antMatchers("/**/*.ico", "/**/*.css", "/**/*.png", "/**/*.json", "/**/*.svg", "/**/*.js").permitAll()
                 .anyRequest().authenticated()
                 .and()

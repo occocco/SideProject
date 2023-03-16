@@ -22,6 +22,7 @@ class MemberRestControllerTest {
     RestTemplate restTemplate;
     HttpHeaders headers;
     Map<String, String> requestBody;
+
     @BeforeEach
     void init() {
         restTemplate = new RestTemplate();
@@ -51,8 +52,8 @@ class MemberRestControllerTest {
 
     @Test
     void joinExTest() {
-        MemberDto memberDto1 = new MemberDto("MemberE", "123", null);
-        MemberDto memberDto2 = new MemberDto("MemberE", "123", null);
+        MemberDto memberDto1 = new MemberDto("Member", "123", null);
+        MemberDto memberDto2 = new MemberDto("Member", "123", null);
 
         String url = "http://localhost:8080/members";
 

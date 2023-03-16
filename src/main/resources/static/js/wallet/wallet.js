@@ -23,42 +23,56 @@ function getWallet() {
             if (result.message) {
                 if (confirm(result.message + ' 지갑을 만드시겠습니까?')) {
                     $container.html(addWalletForm);
-                    addWallet();
+                    createWallet();
                 }
             } else {
                 const walletForm = WalletForm(result.name, result.balance, result.createdDate, result.updatedDate);
                 $container.html(walletForm);
                 goIndex();
+                chargeWallet();
             }
         })
         .catch(error => console.error(error));
 }
 
-function addWallet() {
+function createWallet() {
     $('#addWallet').click(function () {
         let formData = new FormData(document.getElementById('walletForm'));
-        fetch('/wallets/' + getMemberId(), {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + getToken(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(Object.fromEntries(formData))
-        })
-            .then(response => response.json())
-            .then(result => {
-                if (result.message) {
-                    alert(result.message);
-                }
-                    getWallet();
-            })
+        walletPostFetchApi('/wallets/' + getMemberId(), formData);
     })
 }
 
-function goIndex() {
-    $('#homeBtn').click(function () {
-        location.replace('/');
+function chargeWallet() {
+    $('#chargeFormBtn').click(function () {
+        $container.html(chargeWalletForm);
+
+        $('#chargeBtn').click(function () {
+
+            let formData = new FormData(document.getElementById('chargeWalletForm'));
+            formData.append('sender', getMemberId());
+            formData.append('receiver', getMemberId());
+
+            walletPostFetchApi('/txs', formData);
+        });
     })
+}
+
+function walletPostFetchApi(uri, formData) {
+    fetch(uri, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + getToken(),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData))
+    })
+        .then(response => response.json())
+        .then(result => {
+            if (result.message) {
+                alert(result.message);
+            }
+            getWallet();
+        })
 }
 
 const addWalletForm =
@@ -98,8 +112,29 @@ const WalletForm = (name, balance, createdDate, updatedDate) => {
                 <label for="walletName">수정일</label>
             </div>
         </form>
-        <button class="w-100 btn btn-primary mt-1" id="chargeBtn">충전하기</button>
+        <button class="w-100 btn btn-primary mt-1" id="chargeFormBtn" data-action="false">충전하기</button>
         <button class="w-100 btn btn-primary mt-1" id="homeBtn">홈으로</button>
     </main>
 `;
+}
+
+const chargeWalletForm =
+    `
+    <main>
+        <form id="chargeWalletForm">
+            <h1 class="h3 mb-3 fw-normal">지갑 충전</h1>
+            <div class="form-floating pb-1">
+                <input type="number" class="form-control" name="amount" id="amount" min="0">
+                <label for="walletName">충전금액</label>
+            </div>
+        </form>
+        <button class="w-100 btn btn-primary" id="chargeBtn">충전하기</button>
+        <button class="w-100 btn btn-primary mt-1" id="homeBtn">홈으로</button>
+    </main>
+`;
+
+function goIndex() {
+    $('#homeBtn').click(function () {
+        location.replace('/');
+    })
 }

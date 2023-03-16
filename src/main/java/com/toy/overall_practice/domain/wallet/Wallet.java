@@ -1,6 +1,6 @@
 package com.toy.overall_practice.domain.wallet;
 
-import com.toy.overall_practice.domain.member.Member;
+import com.toy.overall_practice.exception.InsufficientFundsException;
 import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,8 +15,6 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
-import static javax.persistence.FetchType.*;
-
 @Entity
 @Getter
 @DynamicInsert
@@ -27,9 +25,6 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wallet_id")
     private Long id;
-
-    @OneToOne(fetch = LAZY, mappedBy = "wallet")
-    private Member member;
 
     @Column(name = "wallet_name")
     @ColumnDefault(value = "'My Wallet'")
@@ -49,15 +44,25 @@ public class Wallet {
     private LocalDateTime updatedDate;
 
     public static Wallet createWallet(WalletCreateForm form) {
-        Wallet wallet = new Wallet(form.getMember());
-        wallet.name = form.getWalletName();
-        wallet.member = form.getMember();
+        Wallet wallet = new Wallet(form.getWalletName(), 0L);
         form.getMember().ConnectWallet(wallet);
         return wallet;
     }
 
-    private Wallet(Member member) {
-        this.member = member;
-        this.balance = 0L;
+    public void addBalance(Long amount) {
+        this.balance += amount;
+    }
+
+    public void removeBalance(Long amount) {
+        long alterBalance = this.balance - amount;
+        if (alterBalance < 0) {
+            throw new InsufficientFundsException("잔액이 부족합니다.");
+        }
+        this.balance = alterBalance;
+    }
+
+    private Wallet(String name, Long balance) {
+        this.name = name;
+        this.balance = balance;
     }
 }

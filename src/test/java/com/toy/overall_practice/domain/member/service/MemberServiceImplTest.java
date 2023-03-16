@@ -122,6 +122,6 @@ class MemberServiceImplTest {
     }
     private Token createToken() {
         Member member = Member.createMember("TestMember", "123", RoleType.MEMBER);
-        return jwtTokenProvider.createToken(member, 1000L);
+        return jwtTokenProvider.createToken(member, 2000L);
     }
 }

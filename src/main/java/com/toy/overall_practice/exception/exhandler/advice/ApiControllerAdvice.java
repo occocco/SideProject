@@ -2,6 +2,7 @@ package com.toy.overall_practice.exception.exhandler.advice;
 
 import com.toy.overall_practice.exception.DuplicateMemberException;
 import com.toy.overall_practice.exception.ForbiddenException;
+import com.toy.overall_practice.exception.InsufficientFundsException;
 import com.toy.overall_practice.exception.NotFoundMemberException;
 import com.toy.overall_practice.exception.exhandler.ExResult;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,13 @@ public class ApiControllerAdvice {
         log.error("[DuplicateMemberException]", e);
         ExResult exResult = new ExResult("409", e.getMessage());
         return ResponseEntity.status(HttpServletResponse.SC_CONFLICT).body(exResult);
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<ExResult> insufficientFundsExceptionHandler(InsufficientFundsException e) {
+        log.error("[InsufficientFundsException]", e);
+        ExResult exResult = new ExResult("402", e.getMessage());
+        return ResponseEntity.status(HttpServletResponse.SC_PAYMENT_REQUIRED).body(exResult);
     }
 
     @ExceptionHandler(ForbiddenException.class)

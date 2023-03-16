@@ -10,7 +10,7 @@ class MemberTest {
     @Test
     void createMemberTest() {
 
-        Member memberA = Member.createMember("memberA", "1234", RoleType.MEMBER);
+        Member memberA = getMember("memberA");
         Member member = memberA.getRole().stream().findAny().orElseThrow().getMember();
 
         assertThat(member).isEqualTo(memberA);
@@ -20,11 +20,15 @@ class MemberTest {
 
     @Test
     void modifyTest(){
-        Member memberA = Member.createMember("MemberA", "1234", RoleType.MEMBER);
-        String modify = "0000";
+        Member memberA = getMember("MemberA");
+        String modifyPassword = "0000";
 
-        memberA.modifyMember(modify);
+        memberA.modifyMember(modifyPassword);
 
-        assertThat(memberA.getPassword()).isEqualTo(modify);
+        assertThat(memberA.getPassword()).isEqualTo(modifyPassword);
+    }
+
+    private Member getMember(String memberId) {
+        return Member.createMember(memberId, "1234", RoleType.MEMBER);
     }
 }

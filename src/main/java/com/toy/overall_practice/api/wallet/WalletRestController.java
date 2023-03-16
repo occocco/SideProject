@@ -29,7 +29,8 @@ public class WalletRestController {
     @PostMapping("/wallets/{id}")
     public ResponseEntity<WalletDto> createWallet(@PathVariable String id,
                                                   @RequestBody WalletCreateForm form) {
-        Member member = memberService.findById(id).orElseThrow(()-> new NotFoundMemberException("회원정보가 올바르지 않습니다."));
+        Member member = memberService.findById(id)
+                .orElseThrow(()-> new NotFoundMemberException("회원정보가 올바르지 않습니다."));
         form.setMember(member);
         Wallet wallet = walletService.createWallet(form);
         return ResponseEntity.ok().body(WalletDto.toWalletDto(wallet));
