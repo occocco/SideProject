@@ -6,11 +6,38 @@ insert into WALLET values (11,0,now(),'my wallet',now());
 insert into MEMBER values (10,'123','$2a$10$Egma42qHHvItgprXUolTA.jpM4FD57EuwSQU3tIRRl2.cHyZ3ClTu', 10);
 insert into MEMBER_ROLE values (10, 10, 'MEMBER');
 
-insert into MEMBER values (13,'1234','$2a$10$Egma42qHHvItgprXUolTA.jpM4FD57EuwSQU3tIRRl2.cHyZ3ClTu', null);
-insert into MEMBER_ROLE values (13, 13, 'MEMBER');
-
 insert into MEMBER values (11,'MemberC','$2a$10$Egma42qHHvItgprXUolTA.jpM4FD57EuwSQU3tIRRl2.cHyZ3ClTu', 11);
 insert into MEMBER_ROLE values (11, 11, 'MEMBER');
 
 insert into MEMBER values (12,'MemberE','$2a$10$Egma42qHHvItgprXUolTA.jpM4FD57EuwSQU3tIRRl2.cHyZ3ClTu', null);
 insert into MEMBER_ROLE values (12, 12, 'MEMBER');
+
+insert into MEMBER values (13,'1234','$2a$10$Egma42qHHvItgprXUolTA.jpM4FD57EuwSQU3tIRRl2.cHyZ3ClTu', null);
+insert into MEMBER_ROLE values (13, 13, 'MEMBER');
+
+insert into MEMBER values (14,'TestingMember','$2a$10$Egma42qHHvItgprXUolTA.jpM4FD57EuwSQU3tIRRl2.cHyZ3ClTu', null);
+insert into MEMBER_ROLE values (14, 14, 'MEMBER');
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (1, '전자제품', null);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (2, '스마트폰', 1);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (3, '태블릿', 1);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (4, '컴퓨터', 1);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (5, '의류', null);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (6, '남성의류', 5);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (7, '여성의류', 5);
+
+INSERT INTO CATEGORY (CATEGORY_ID, CATEGORY_NAME, PARENT_CATEGORY_ID)
+VALUES (8, '아동의류', 5);

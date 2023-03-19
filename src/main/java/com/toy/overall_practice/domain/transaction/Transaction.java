@@ -2,7 +2,6 @@ package com.toy.overall_practice.domain.transaction;
 
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.wallet.Wallet;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,10 +13,11 @@ import java.time.LocalDateTime;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
+import static lombok.AccessLevel.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Transaction {
 
     @Id

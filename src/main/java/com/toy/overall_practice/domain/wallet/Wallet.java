@@ -2,7 +2,6 @@ package com.toy.overall_practice.domain.wallet;
 
 import com.toy.overall_practice.exception.InsufficientFundsException;
 import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -15,10 +14,12 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
+import static lombok.AccessLevel.*;
+
 @Entity
 @Getter
 @DynamicInsert
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Wallet {
 
     @Id

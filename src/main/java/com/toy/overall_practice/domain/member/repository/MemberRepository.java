@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    @EntityGraph(attributePaths = {"role","wallet"})
+    @EntityGraph(attributePaths = {"role"})
     Optional<Member> findByLoginId(String loginId);
 
     @EntityGraph(attributePaths = {"wallet"})

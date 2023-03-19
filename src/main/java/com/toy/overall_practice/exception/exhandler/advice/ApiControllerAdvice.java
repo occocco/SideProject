@@ -38,6 +38,12 @@ public class ApiControllerAdvice {
         ExResult exResult = new ExResult("402", e.getMessage());
         return ResponseEntity.status(HttpServletResponse.SC_PAYMENT_REQUIRED).body(exResult);
     }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ExResult> illegalArgumentExceptionHandler(IllegalArgumentException e) {
+        log.error("[IllegalArgumentException]", e);
+        ExResult exResult = new ExResult("400", e.getMessage());
+        return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(exResult);
+    }
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ExResult> forbiddenExceptionHandler(ForbiddenException e) {

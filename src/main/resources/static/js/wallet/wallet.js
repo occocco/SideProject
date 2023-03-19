@@ -100,7 +100,7 @@ const WalletForm = (name, balance, createdDate, updatedDate) => {
                 <label for="walletName">지갑 별칭</label>
             </div>
             <div class="form-floating pb-1">
-                <input type="text" class="form-control" name="balance" id="balance" value="${balance}" readonly>
+                <input type="text" class="form-control" name="balance" id="balance" value="${balance.toLocaleString()}" readonly>
                 <label for="walletName">잔액</label>
             </div>
             <div class="form-floating pb-1">

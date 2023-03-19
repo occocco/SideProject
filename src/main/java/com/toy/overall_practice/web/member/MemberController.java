@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MemberController {
 
     @GetMapping("/login")
-    public String loginForm(@RequestParam(value = "redirect", required = false, defaultValue = "/") String redirectUri, Model model) {
+    public String loginForm(@RequestParam(value = "redirect", required = false, defaultValue = "/") String redirectUri,
+                            Model model) {
         model.addAttribute("redirectUri", redirectUri);
         return "member/LoginForm";
     }

@@ -1,16 +1,17 @@
 package com.toy.overall_practice.domain.role;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static lombok.AccessLevel.*;
+
 
 @Entity
 @Getter
 @Table(name = "roles")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Role {
 
     @Id

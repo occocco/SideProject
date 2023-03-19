@@ -10,11 +10,15 @@
         align-items: center;
         height: 100vh;
     }
+    @media (min-width: 768px) {
+        main {
+            width: 50%;
+        }
+    }
 
     .container > * {
         margin: 0 10px;
     }
-
 </style>
 <div class="container" th:data-redirect="${#request.requestURI}">
 </div>
@@ -22,6 +26,7 @@
 <script type="module" th:src="@{/js/index.js}"></script>
 <script type="module" th:src="@{/js/members/Information.js}"></script>
 <script type="module" th:src="@{/js/wallet/wallet.js}"></script>
+<script type="module" th:src="@{/js/post/post.js}"></script>
 <script type="module" th:src="@{/js/transaction/transaction.js}"></script>
 <script type="module" th:src="@{/js/jwt/tokenUtil.js}"></script>
 </html>

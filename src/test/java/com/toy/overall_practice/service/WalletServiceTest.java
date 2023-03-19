@@ -5,7 +5,6 @@ import com.toy.overall_practice.domain.wallet.Wallet;
 import com.toy.overall_practice.service.member.service.MemberService;
 import com.toy.overall_practice.service.wallet.WalletService;
 import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

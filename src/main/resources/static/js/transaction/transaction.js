@@ -38,7 +38,6 @@ function getTxRecord() {
             } else {
                 let txLists = '';
                 for (const tx of result) {
-                    console.log(tx)
                     const txList = txListForm(tx.sender, tx.receiver, tx.amount, tx.balance, tx.createdDate);
                     txLists += txList;
                 }

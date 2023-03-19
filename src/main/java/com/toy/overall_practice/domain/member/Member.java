@@ -1,20 +1,24 @@
 package com.toy.overall_practice.domain.member;
 
+import com.toy.overall_practice.domain.goods.Goods;
 import com.toy.overall_practice.domain.role.MemberRole;
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.domain.wallet.Wallet;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
+import static lombok.AccessLevel.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Member {
 
     @Id
@@ -32,6 +36,9 @@ public class Member {
     @OneToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
+
+    @OneToMany(mappedBy = "seller", cascade = ALL)
+    private List<Goods> goods = new ArrayList<>();
 
     public static Member createMember(String loginId, String password, RoleType roleType) {
         Member member = new Member(loginId, password);
