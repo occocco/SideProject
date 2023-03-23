@@ -1,4 +1,4 @@
-package com.toy.overall_practice.service.member.service;
+package com.toy.overall_practice.service.member;
 
 import com.toy.overall_practice.domain.member.MemberDetails;
 import com.toy.overall_practice.domain.member.repository.MemberRepository;

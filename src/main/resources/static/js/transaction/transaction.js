@@ -1,4 +1,5 @@
 import {getToken, getMemberId} from '/js/jwt/tokenUtil.js';
+import {goIndex} from '/js/index.js';
 
 const $container = $('body');
 const temp =
@@ -71,11 +72,4 @@ const txListForm = (sender, receiver, amount, balance, createdDate) => {
     </div>
 </div>
 `;
-}
-
-
-function goIndex() {
-    $('#homeBtn').click(function () {
-        location.replace('/');
-    })
 }

@@ -1,4 +1,5 @@
 import {getToken, getMemberId} from '/js/jwt/tokenUtil.js';
+import {goIndex} from '/js/index.js';
 
 const $container = $('.container');
 
@@ -68,13 +69,6 @@ async function modifyInfo(url, data) {
     });
     return response.json();
 
-}
-
-
-function goIndex() {
-    $('#homeBtn').click(function () {
-        location.replace('/');
-    })
 }
 
 const memberInfo = (id, password, type) => {

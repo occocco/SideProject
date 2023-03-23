@@ -4,13 +4,11 @@ import com.toy.overall_practice.exception.InsufficientFundsException;
 import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +17,7 @@ import static lombok.AccessLevel.*;
 @Entity
 @Getter
 @DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
 public class Wallet {
 

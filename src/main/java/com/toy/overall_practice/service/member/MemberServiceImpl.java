@@ -1,4 +1,4 @@
-package com.toy.overall_practice.service.member.service;
+package com.toy.overall_practice.service.member;
 
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.exception.DuplicateMemberException;
@@ -7,9 +7,9 @@ import com.toy.overall_practice.jwt.JwtTokenProvider;
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.member.repository.MemberRepository;
 import com.toy.overall_practice.redis.RedisRepository;
-import com.toy.overall_practice.service.member.service.dto.MemberDto;
+import com.toy.overall_practice.service.member.dto.MemberDto;
 import com.toy.overall_practice.exception.NotFoundMemberException;
-import com.toy.overall_practice.service.member.service.dto.MemberInfoDto;
+import com.toy.overall_practice.service.member.dto.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -12,6 +12,5 @@ public class GoodsCreateDto {
     private String name;
     private String category;
     private Long price;
-    private String status;
 
 }

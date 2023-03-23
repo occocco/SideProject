@@ -12,7 +12,13 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class PostDto {
 
+    private Long id;
+
+    private String memberId;
+
     private String title;
+
+    private String status;
 
     private String content;
 
@@ -30,7 +36,10 @@ public class PostDto {
 
     public static PostDto toPostDto(Post post) {
         return new PostDto(
+                post.getId(),
+                post.getGoods().getSeller().getLoginId(),
                 post.getTitle(),
+                post.getStatus().getCategory(),
                 post.getContent(),
                 post.getGoods().getName(),
                 post.getGoods().getCategory().getName(),

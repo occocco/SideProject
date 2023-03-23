@@ -16,7 +16,8 @@ public class JwtProperty {
     @Value("${jwt.token.prefix}")
     private String jwtTokenPrefix;
 
-    private Long accessTokenValidTime = Duration.ofMinutes(30).toMillis();
+//    private Long accessTokenValidTime = Duration.ofMinutes(30).toMillis();
+    private Long accessTokenValidTime = Duration.ofMinutes(300).toMillis();
     private Long refreshTokenValidTime = Duration.ofDays(7).toMillis();
 
 }

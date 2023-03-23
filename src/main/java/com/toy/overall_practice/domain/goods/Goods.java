@@ -31,9 +31,6 @@ public class Goods {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Enumerated(EnumType.STRING)
-    private GoodsStatus status;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "seller_id", referencedColumnName = "member_id")
     private Member seller;
@@ -41,15 +38,21 @@ public class Goods {
     @OneToOne(fetch = LAZY, mappedBy = "goods")
     private Post post;
 
-    public Goods(Category category, String name, Long price, GoodsStatus status, Member seller) {
+    public Goods(Category category, String name, Long price, Member seller) {
         this.category = category;
         this.name = name;
         this.price = price;
-        this.status = status;
         this.seller = seller;
     }
 
     public void connectPost(Post post) {
         this.post = post;
     }
+
+    public void updateGoods(String goodsName, Category category, Long price) {
+        this.name = goodsName;
+        this.category = category;
+        this.price = price;
+    }
+
 }

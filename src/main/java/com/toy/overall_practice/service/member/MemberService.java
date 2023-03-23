@@ -1,9 +1,9 @@
-package com.toy.overall_practice.service.member.service;
+package com.toy.overall_practice.service.member;
 
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.jwt.Token;
-import com.toy.overall_practice.service.member.service.dto.MemberDto;
-import com.toy.overall_practice.service.member.service.dto.MemberInfoDto;
+import com.toy.overall_practice.service.member.dto.MemberDto;
+import com.toy.overall_practice.service.member.dto.MemberInfoDto;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;

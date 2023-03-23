@@ -7,6 +7,7 @@ const redirectUri = $container.data('redirect');
 if (token) {
     const signForm = `
     <a type="button" class="btn btn-primary" role="button" id="addPostBtn">거래글 등록</a>
+    <a type="button" class="btn btn-primary" role="button" id="postListBtn">거래글 조회</a>
     <a type="button" class="btn btn-primary" role="button" id="walletBtn">나의 지갑</a>
     <a type="button" class="btn btn-primary" role="button" id="txRecordBtn">거래내역</a>
     <a type="button" class="btn btn-primary" role="button" id="member-info">회원정보</a>
@@ -38,3 +39,9 @@ $('#logoutBtn').click(function () {
     });
 
 })
+
+export function goIndex() {
+    $('#homeBtn').click(function () {
+        location.replace('/');
+    })
+}

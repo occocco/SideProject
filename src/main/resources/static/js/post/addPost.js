@@ -1,15 +1,19 @@
-import {getToken} from '/js/jwt/tokenUtil.js';
+import {getMemberId, getToken} from '/js/jwt/tokenUtil.js';
+import {backPostList} from '/js/post/postList.js';
+import {updatePost, deletePost, modifyPostStatus} from '/js/post/modifyPost.js';
+import {goIndex} from '/js/index.js';
 
 const $container = $('.container');
 
 $('#addPostBtn').click(function () {
-    $container.html(addPostForm);
+    $container.html(addPostForm('판매글 등록'));
     selectedOpt();
     getRegions();
     insertPost();
+    goIndex();
 })
 
-function selectedOpt() {
+export function selectedOpt() {
     $('#mainCategory').on('change', function () {
         let selectedOption = $(this).val();
         if (selectedOption !== '대분류') {
@@ -22,7 +26,7 @@ function selectedOpt() {
     })
 }
 
-function getChildCategories(parentsCategory) {
+export function getChildCategories(parentsCategory) {
     fetch('/categories/' + encodeURI(parentsCategory), {
         headers: {
             'Content-Type': 'application/json',
@@ -44,8 +48,8 @@ function getChildCategories(parentsCategory) {
         .catch(error => console.error(error));
 }
 
-function getRegions() {
-    fetch('/regions/', {
+export function getRegions() {
+    fetch('/regions', {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + getToken()
@@ -66,7 +70,22 @@ function getRegions() {
         .catch(error => console.error(error));
 }
 
+export function postDetails(result) {
+    return postForm(
+        result.id,
+        result.memberId,
+        result.title,
+        result.content,
+        result.goodsName,
+        result.category,
+        result.price,
+        result.region,
+        result.status,
+        result.createdDate,
+        result.updatedDate);
+}
 function insertPost() {
+
     $('#addPost').click(function () {
         let formData = new FormData(document.getElementById('addPostForm'));
         fetch('/posts', {
@@ -81,17 +100,35 @@ function insertPost() {
             .then(result => {
                 if (result.message) {
                     alert(result.message);
+                } else {
+                    let post = postDetails(result);
+                    $container.html(post);
+                    backPostList();
+                    if (result.memberId === getMemberId()) {
+                        addModifyBtn();
+                        updatePost();
+                        modifyPostStatus();
+                        deletePost();
+                    }
                 }
-                let post = postForm(result.title, result.content, result.goodsName, result.category, result.price, result.region, result.createdDate, result.updatedDate);
-                $container.html(post);
             })
     })
 }
 
-const addPostForm =
+export function addModifyBtn() {
+    let $button = $('#backPostList');
+    const modifyButtons =
+        `<button class="btn btn-primary mt-1" id="updatePost">글수정하기</button>
+           <button class="btn btn-primary mt-1" id="modifyStatusBtn">판매상태변경</button>
+           <button class="btn btn-primary mt-1" id="deletePost">삭제하기</button>
+        `;
+    $button.after(modifyButtons);
+}
+
+export const addPostForm = (title) =>
     `
 <main>
-    <h1>판매글 등록</h1>
+    <h1>${title}</h1>
     <form id="addPostForm">
       <label for="title">제목</label><br>
       <input class="form-control" type="text" id="title" name="title"><br>
@@ -117,15 +154,18 @@ const addPostForm =
       <br>
     </form>
       <button class="btn btn-primary mt-1" id="addPost">등록</button>
+      <button class="btn btn-primary mt-1" id="homeBtn" style="position: fixed; top: 0; left: 0;">홈으로</button>
 </main>
     `;
 
-const postForm = (title, content, goodsName, category, price, region, createdDate, updatedDate) => {
+const postForm = (id, memberId, title, content, goodsName, category, price, region, status,createdDate, updatedDate) => {
 
     return `
 <main>
     <h1>판매글 조회</h1>
-    <form id="postForm">
+    <form id="postForm" data-id="${id}">
+      <label for="memberId">판매자</label><br>
+      <input class="form-control" type="text" id="memberId" name="memberId" value="${memberId}" readonly><br>
       <label for="title">제목</label><br>
       <input class="form-control" type="text" id="title" name="title" value="${title}" readonly><br>
       <label for="goodsName">제품명</label><br>
@@ -139,12 +179,14 @@ const postForm = (title, content, goodsName, category, price, region, createdDat
       <input class="form-control" type="number" id="price" name="price" min="0" value="${price}" readonly><br>
       <label for="region">지역</label><br>
       <input class="form-control" id="region" name="region" value="${region}" readonly>
+      <label for="status">판매상태</label><br>
+      <input class="form-control" type="text" id="status" name="status" value="${status}" readonly><br>
       <label for="goodsName">작성일</label><br>
       <input class="form-control" type="text" id="createdDate" name="createdDate" value="${createdDate}" readonly><br>
       <label for="goodsName">수정일</label><br>
       <input class="form-control" type="text" id="updatedDate" name="updatedDate" value="${updatedDate}" readonly><br>
     </form>
-      <button class="btn btn-primary mt-1">목록으로</button>
+      <button class="btn btn-primary mt-1" id="backPostList" style="position: fixed; top: 0; left: 0;">목록으로</button>
 </main>
     `;
 

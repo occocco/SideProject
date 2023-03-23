@@ -1,4 +1,4 @@
-package com.toy.overall_practice.service.member.service.dto;
+package com.toy.overall_practice.service.member.dto;
 
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.role.RoleType;

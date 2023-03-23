@@ -3,7 +3,7 @@ package com.toy.overall_practice.jwt;
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.redis.RedisRepository;
-import com.toy.overall_practice.service.member.service.MemberDetailService;
+import com.toy.overall_practice.service.member.MemberDetailService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

@@ -2,7 +2,7 @@ package com.toy.overall_practice.api.member;
 
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.jwt.Token;
-import com.toy.overall_practice.service.member.service.dto.MemberDto;
+import com.toy.overall_practice.service.member.dto.MemberDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;

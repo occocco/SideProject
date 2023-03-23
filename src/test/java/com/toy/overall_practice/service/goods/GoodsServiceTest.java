@@ -2,7 +2,7 @@ package com.toy.overall_practice.service.goods;
 
 import com.toy.overall_practice.domain.category.Category;
 import com.toy.overall_practice.domain.goods.Goods;
-import com.toy.overall_practice.domain.goods.GoodsStatus;
+import com.toy.overall_practice.domain.post.PostStatus;
 import com.toy.overall_practice.domain.goods.repository.GoodsRepository;
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.member.repository.MemberRepository;
@@ -45,9 +45,9 @@ class GoodsServiceTest {
         String categoryName = "의류";
         Category category = new Category(1L, categoryName, null, new ArrayList<>(), new ArrayList<>());
         Member member = Member.createMember("TestMember", "1234", RoleType.MEMBER);
-        GoodsCreateDto goodsCreateDto = new GoodsCreateDto("상품명", categoryName, 1000L, "SELLING");
+        GoodsCreateDto goodsCreateDto = new GoodsCreateDto("상품명", categoryName, 1000L);
         Principal principal = new UsernamePasswordAuthenticationToken(member.getLoginId(), "1234");
-        Goods goods = new Goods(category, goodsCreateDto.getName(), goodsCreateDto.getPrice(), GoodsStatus.valueOf("SELLING"), member);
+        Goods goods = new Goods(category, goodsCreateDto.getName(), goodsCreateDto.getPrice(), member);
 
         when(categoryService.findCategory(categoryName)).thenReturn(category);
         when(memberRepository.findByLoginId(member.getLoginId())).thenReturn(Optional.of(member));
@@ -58,15 +58,7 @@ class GoodsServiceTest {
         assertNotNull(result.getCategory());
         assertEquals(goodsCreateDto.getName(), result.getName());
         assertEquals(goodsCreateDto.getPrice(), result.getPrice());
-        assertEquals(GoodsStatus.SELLING.category, result.getStatus());
         assertEquals(member.getLoginId(), result.getSeller());
     }
 
-    @Test
-    void validationStatusTest() {
-
-        GoodsCreateDto goodsCreateDto = new GoodsCreateDto();
-        goodsCreateDto.setStatus("잘못된 타입");
-        assertThrows(IllegalArgumentException.class, () -> goodsService.saveGoods(goodsCreateDto, null));
-    }
 }

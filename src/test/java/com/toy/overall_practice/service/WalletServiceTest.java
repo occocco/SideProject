@@ -2,7 +2,7 @@ package com.toy.overall_practice.service;
 
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.wallet.Wallet;
-import com.toy.overall_practice.service.member.service.MemberService;
+import com.toy.overall_practice.service.member.MemberService;
 import com.toy.overall_practice.service.wallet.WalletService;
 import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
 import org.junit.jupiter.api.Test;

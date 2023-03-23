@@ -16,8 +16,6 @@ public class GoodsDto {
 
     private String category;
 
-    private String status;
-
     private String seller;
 
     public static GoodsDto toGoodsDto(Goods goods) {
@@ -25,7 +23,6 @@ public class GoodsDto {
                 goods.getName(),
                 goods.getPrice(),
                 goods.getCategory().getName(),
-                goods.getStatus().category,
                 goods.getSeller().getLoginId()
         );
     }

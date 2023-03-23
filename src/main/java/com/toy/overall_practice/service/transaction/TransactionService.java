@@ -4,7 +4,7 @@ import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.transaction.Transaction;
 import com.toy.overall_practice.domain.transaction.TransactionRepository;
 import com.toy.overall_practice.exception.NotFoundMemberException;
-import com.toy.overall_practice.service.member.service.MemberService;
+import com.toy.overall_practice.service.member.MemberService;
 import com.toy.overall_practice.service.transaction.dto.TransactionDto;
 import com.toy.overall_practice.service.transaction.dto.TransactionLogDto;
 import lombok.RequiredArgsConstructor;
