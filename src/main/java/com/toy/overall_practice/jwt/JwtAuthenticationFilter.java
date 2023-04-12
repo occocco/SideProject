@@ -1,7 +1,5 @@
 package com.toy.overall_practice.jwt;
 
-import com.toy.overall_practice.exception.exhandler.ExResult;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -39,8 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 filterChain.doFilter(request, response);
 
-            } catch (ExpiredJwtException e) {
-                new ExResult("401", e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage(), e);
             }
         }
     }
@@ -54,7 +52,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        String[] excludePath = {"/js", "/error", "/token/reissue"};
+        String[] excludePath = {"/js", "/error", "/token/reissue", "/v2/api-docs", "/configuration/ui",
+                "/swagger-resources", "/configuration/security",
+                "/swagger-ui.html", "/webjars/**", "/swagger/**"};
         return stream(excludePath).anyMatch(path::startsWith);
     }
 }

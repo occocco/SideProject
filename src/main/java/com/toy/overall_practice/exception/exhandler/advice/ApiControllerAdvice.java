@@ -6,6 +6,7 @@ import com.toy.overall_practice.exception.InsufficientFundsException;
 import com.toy.overall_practice.exception.NotFoundMemberException;
 import com.toy.overall_practice.exception.exhandler.ExResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,7 +22,7 @@ public class ApiControllerAdvice {
     @ExceptionHandler(NotFoundMemberException.class)
     public ResponseEntity<ExResult> NotFoundMemberExceptionHandler(NotFoundMemberException e) {
         log.error("[NotFoundMemberException]", e);
-        ExResult exResult = new ExResult("400", e.getMessage());
+        ExResult exResult = new ExResult("404", e.getMessage());
         return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(exResult);
     }
 
@@ -56,6 +57,13 @@ public class ApiControllerAdvice {
         log.error("[NoSuchElementException]", e);
         ExResult exResult = new ExResult("400", e.getMessage());
         return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(exResult);
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity<ExResult> emptyResultDataAccessExceptionHandler(EmptyResultDataAccessException e) {
+        log.error("[EmptyResultDataAccessException]", e);
+        ExResult exResult = new ExResult("404", e.getMessage());
+        return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body(exResult);
     }
 
     @ExceptionHandler

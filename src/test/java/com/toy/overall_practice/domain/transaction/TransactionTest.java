@@ -4,7 +4,7 @@ import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.domain.wallet.Wallet;
 import com.toy.overall_practice.exception.InsufficientFundsException;
-import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
+import com.toy.overall_practice.service.wallet.dto.WalletCreateDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,8 +70,8 @@ class TransactionTest {
     }
 
     private Wallet getWallet(Member member) {
-        WalletCreateForm form = new WalletCreateForm("My Wallet", member);
-        return Wallet.createWallet(form);
+        WalletCreateDto form = new WalletCreateDto("My Wallet");
+        return Wallet.createWallet(form, member);
     }
 
 }

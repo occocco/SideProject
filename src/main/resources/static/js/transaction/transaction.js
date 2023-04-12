@@ -25,7 +25,7 @@ function init() {
 }
 
 function getTxRecord() {
-    fetch('/txs/' + getMemberId(), {
+    fetch('/transactions/' + getMemberId(), {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + getToken(),

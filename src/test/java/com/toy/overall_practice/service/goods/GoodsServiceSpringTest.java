@@ -1,7 +1,6 @@
 package com.toy.overall_practice.service.goods;
 
 import com.toy.overall_practice.domain.goods.Goods;
-import com.toy.overall_practice.domain.post.PostStatus;
 import com.toy.overall_practice.service.goods.dto.GoodsCreateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

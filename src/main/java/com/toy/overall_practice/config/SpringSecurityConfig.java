@@ -62,7 +62,10 @@ public class SpringSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-                .antMatchers("/**/*.ico", "/**/*.css", "/**/*.png", "/**/*.json", "/**/*.svg", "/**/*.js", "/error/**");
+                .antMatchers("/**/*.ico", "/**/*.css", "/**/*.png", "/**/*.json", "/**/*.svg", "/**/*.js", "/error/**")
+                .antMatchers("/v2/api-docs",  "/configuration/ui",
+                        "/swagger-resources/**", "/configuration/security",
+                        "/swagger-ui.html", "/webjars/**","/swagger/**");
     }
 
 }

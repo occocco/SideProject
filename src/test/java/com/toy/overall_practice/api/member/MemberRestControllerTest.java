@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +33,8 @@ class MemberRestControllerTest {
 
     @Test
     void joinTest() {
-        MemberDto memberDto = new MemberDto("JoinTest", "123", null);
+        String uuid = UUID.randomUUID().toString();
+        MemberDto memberDto = new MemberDto(uuid, "123", null);
 
         String url = "http://localhost:8080/members";
 
@@ -47,13 +49,13 @@ class MemberRestControllerTest {
         assertEquals(savedMember, memberDto);
         assertEquals(savedMember.getLoginId(), memberDto.getLoginId());
         assertEquals(200, response.getStatusCodeValue());
-
     }
 
     @Test
     void joinExTest() {
-        MemberDto memberDto1 = new MemberDto("Member", "123", null);
-        MemberDto memberDto2 = new MemberDto("Member", "123", null);
+        String uuid = UUID.randomUUID().toString();
+        MemberDto memberDto1 = new MemberDto(uuid, "123", null);
+        MemberDto memberDto2 = new MemberDto(uuid, "123", null);
 
         String url = "http://localhost:8080/members";
 

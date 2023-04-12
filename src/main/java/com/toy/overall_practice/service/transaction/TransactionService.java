@@ -21,7 +21,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class TransactionService {
 
-    private final TransactionRepository repository;
+    private final TransactionRepository transactionRepository;
     private final MemberService memberService;
 
     @Transactional
@@ -29,12 +29,12 @@ public class TransactionService {
         Member sender = getMember(memberService.findById(transactionDto.getSender()));
         Member receiver = getMember(memberService.findById(transactionDto.getReceiver()));
         Transaction tx = Transaction.createTx(sender, receiver, transactionDto.getAmount());
-        return repository.save(tx);
+        return transactionRepository.save(tx);
     }
 
     public List<TransactionLogDto> findTxRecord(String loginId) {
         Member member = getMember(memberService.findById(loginId));
-        List<Transaction> txs = repository.findAllByMemberAndPeriod(
+        List<Transaction> txs = transactionRepository.findAllByMemberAndPeriod(
                 member,
                 LocalDateTime.now().minusDays(1L),
                 LocalDateTime.now().plusDays(1L));

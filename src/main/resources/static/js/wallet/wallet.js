@@ -38,7 +38,7 @@ function getWallet() {
 function createWallet() {
     $('#addWallet').click(function () {
         let formData = new FormData(document.getElementById('walletForm'));
-        walletPostFetchApi('/wallets/' + getMemberId(), formData);
+        walletPostFetchApi('/wallets/', formData);
     })
 }
 
@@ -52,7 +52,7 @@ function chargeWallet() {
             formData.append('sender', getMemberId());
             formData.append('receiver', getMemberId());
 
-            walletPostFetchApi('/txs', formData);
+            walletPostFetchApi('/transactions', formData);
         });
     })
 }

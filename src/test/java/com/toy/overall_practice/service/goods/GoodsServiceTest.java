@@ -2,7 +2,6 @@ package com.toy.overall_practice.service.goods;
 
 import com.toy.overall_practice.domain.category.Category;
 import com.toy.overall_practice.domain.goods.Goods;
-import com.toy.overall_practice.domain.post.PostStatus;
 import com.toy.overall_practice.domain.goods.repository.GoodsRepository;
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.member.repository.MemberRepository;

@@ -32,11 +32,20 @@ $('#logoutBtn').click(function () {
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
     }).then((response) => {
-        if (response.status === 200) {
-            localStorage.removeItem('Authorization');
-            location.replace('/')
+            if (response.status === 200) {
+                alert('로그아웃 되었습니다.');
+                localStorage.removeItem('Authorization');
+                location.replace('/');
+            } else {
+                response.json().then((result) => {
+                    alert(result.message);
+                    localStorage.removeItem('Authorization');
+                    location.replace('/');
+                });
+            }
+
         }
-    });
+    );
 
 })
 

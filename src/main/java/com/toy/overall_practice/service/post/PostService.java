@@ -12,6 +12,7 @@ import com.toy.overall_practice.service.post.dto.PostCreateDto;
 import com.toy.overall_practice.service.post.dto.PostModifyDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,4 +68,14 @@ public class PostService {
         post.modifyStatus(category);
         return post;
     }
+
+    @Transactional
+    public void removePost(Long id) {
+        try {
+            postRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EmptyResultDataAccessException("요청한 거래글을 찾을 수 없습니다.", 1);
+        }
+    }
+
 }

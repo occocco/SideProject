@@ -4,7 +4,7 @@ import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.wallet.Wallet;
 import com.toy.overall_practice.service.member.MemberService;
 import com.toy.overall_practice.service.wallet.WalletService;
-import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
+import com.toy.overall_practice.service.wallet.dto.WalletCreateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,8 +26,8 @@ class WalletServiceTest {
     @Test
     void createWalletTest() {
         Member member = getMember("1234");
-        WalletCreateForm form = new WalletCreateForm("My Wallet", member);
-        Wallet wallet = walletService.createWallet(form);
+        WalletCreateDto form = new WalletCreateDto("My Wallet");
+        Wallet wallet = walletService.createWallet(form, member);
 
         assertThat(member.getWallet()).isEqualTo(wallet);
     }
@@ -36,8 +36,8 @@ class WalletServiceTest {
     void getWalletTest() {
 
         Member member = getMember("MemberE");
-        WalletCreateForm form = new WalletCreateForm("My Wallet", member);
-        walletService.createWallet(form);
+        WalletCreateDto form = new WalletCreateDto("My Wallet");
+        walletService.createWallet(form, member);
 
         Wallet findWallet = walletService.findWalletByLoginId(member.getLoginId());
 
@@ -49,10 +49,10 @@ class WalletServiceTest {
     void validateDuplicateWalletTest() {
 
         Member member = getMember("1234");
-        WalletCreateForm form = new WalletCreateForm("My Wallet", member);
-        walletService.createWallet(form);
+        WalletCreateDto form = new WalletCreateDto("My Wallet");
+        walletService.createWallet(form, member);
 
-        assertThrows(DuplicateKeyException.class, () -> walletService.createWallet(form));
+        assertThrows(DuplicateKeyException.class, () -> walletService.createWallet(form, member));
     }
 
     private Member getMember(String id) {

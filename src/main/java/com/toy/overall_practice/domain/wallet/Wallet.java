@@ -1,7 +1,9 @@
 package com.toy.overall_practice.domain.wallet;
 
+import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.exception.InsufficientFundsException;
-import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
+import com.toy.overall_practice.service.wallet.dto.WalletCreateDto;
+import com.toy.overall_practice.service.wallet.dto.WalletUpdateDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
@@ -43,10 +45,15 @@ public class Wallet {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updatedDate;
 
-    public static Wallet createWallet(WalletCreateForm form) {
-        Wallet wallet = new Wallet(form.getWalletName(), 0L);
-        form.getMember().ConnectWallet(wallet);
+    public static Wallet createWallet(WalletCreateDto dto, Member member) {
+        Wallet wallet = new Wallet(dto.getWalletName(), 0L);
+        member.ConnectWallet(wallet);
         return wallet;
+    }
+
+    public Wallet updateWallet(WalletUpdateDto dto) {
+        this.name = dto.getWalletName();
+        return this;
     }
 
     public void addBalance(Long amount) {

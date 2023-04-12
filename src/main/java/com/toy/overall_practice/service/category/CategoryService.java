@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import static com.toy.overall_practice.utils.ConversionUtils.getEntityFromOpt;
 
 @Slf4j
 @Service
@@ -21,14 +22,12 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Category findCategory(String name) {
-        return categoryRepository.findByName(name)
-                .orElseThrow(() -> new NoSuchElementException("카테고리 정보를 찾을 수 없습니다."));
+        return getEntityFromOpt(categoryRepository.findByName(name), "카테고리 정보를 찾을 수 없습니다.");
     }
 
     public List<CategoryDto> findChildCategories(String name) {
 
-        Category parentCategory = categoryRepository.findByName(name)
-                .orElseThrow(() -> new NoSuchElementException("부모 카테고리를 찾을 수 없습니다."));
+        Category parentCategory = findCategory(name);
 
         List<Category> childCategories = categoryRepository.findByParentCategory(parentCategory);
 

@@ -3,7 +3,7 @@ package com.toy.overall_practice.domain.wallet;
 import com.toy.overall_practice.domain.member.Member;
 import com.toy.overall_practice.domain.role.RoleType;
 import com.toy.overall_practice.exception.InsufficientFundsException;
-import com.toy.overall_practice.service.wallet.dto.WalletCreateForm;
+import com.toy.overall_practice.service.wallet.dto.WalletCreateDto;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,9 +14,9 @@ class WalletTest {
     @Test
     void createWallet() {
         Member member = Member.createMember("walletTestMember", "1234", RoleType.MEMBER);
-        WalletCreateForm form = new WalletCreateForm("My Wallet", member);
+        WalletCreateDto form = new WalletCreateDto("My Wallet");
 
-        Wallet wallet = Wallet.createWallet(form);
+        Wallet wallet = Wallet.createWallet(form, member);
 
         assertThat(member.getWallet()).isEqualTo(wallet);
     }
@@ -51,7 +51,7 @@ class WalletTest {
 
     private Wallet getWallet() {
         Member member = Member.createMember("walletTestMember", "1234", RoleType.MEMBER);
-        WalletCreateForm form = new WalletCreateForm("My Wallet", member);
-        return Wallet.createWallet(form);
+        WalletCreateDto form = new WalletCreateDto("My Wallet");
+        return Wallet.createWallet(form, member);
     }
 }

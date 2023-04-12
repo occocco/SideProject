@@ -28,7 +28,6 @@ export function getToken() {
             return token.substring(7);
         }
     }
-    localStorage.removeItem('Authorization')
     return null;
 }
 

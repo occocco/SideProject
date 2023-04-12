@@ -1,45 +1,32 @@
 package com.toy.overall_practice.api.member;
 
 import com.toy.overall_practice.domain.member.Member;
-import com.toy.overall_practice.jwt.JwtTokenProvider;
-import com.toy.overall_practice.jwt.Token;
 import com.toy.overall_practice.service.member.MemberService;
 import com.toy.overall_practice.service.member.dto.MemberDto;
 import com.toy.overall_practice.service.member.dto.MemberInfoDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+@Api(value = "회원 REST API", tags = {"Member REST API"})
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MemberRestController {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/login")
-    public ResponseEntity<Token> login(@RequestBody MemberDto memberDto,
-                                       HttpServletResponse response) {
-        return ResponseEntity.ok().body(memberService.login(memberDto, response));
-    }
-
-    @PostMapping("/logout")
-    public void logout(HttpServletRequest request) {
-        String token = jwtTokenProvider.resolveAccessToken(request);
-        memberService.logout(token);
-    }
-
+    @ApiOperation(value = "회원 저장", notes = "회원 가입 시 사용되는 API")
     @PostMapping("/members")
     public ResponseEntity<MemberDto> join(@RequestBody MemberDto memberDto) {
         memberService.signup(memberDto);
         return ResponseEntity.ok().body(memberDto);
     }
 
+    @ApiOperation(value = "회원 정보 조회", notes = "회원의 현재 정보 조회")
     @GetMapping("/members/{id}")
     public ResponseEntity<MemberDto> getInfo(@PathVariable String id) {
         Member member = memberService.findById(id).orElseThrow();
@@ -47,6 +34,7 @@ public class MemberRestController {
         return ResponseEntity.ok().body(memberDto);
     }
 
+    @ApiOperation(value = "회원 정보 수정")
     @PatchMapping("/members/{id}")
     public ResponseEntity<MemberDto> modifyInfo(@RequestBody MemberInfoDto memberDto,
                                                 @PathVariable String id) {
@@ -54,6 +42,7 @@ public class MemberRestController {
         return ResponseEntity.ok().body(modifyMember);
     }
 
+    @ApiOperation(value = "회원 탈퇴")
     @DeleteMapping("/members/{id}")
     public void WithdrawMember(@PathVariable String id) {
         memberService.delete(id);

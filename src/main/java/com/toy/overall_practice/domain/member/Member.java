@@ -64,4 +64,8 @@ public class Member {
     public void ConnectWallet(Wallet wallet) {
         this.wallet = wallet;
     }
+
+    public void removeWallet() {
+        this.wallet = null;
+    }
 }
